@@ -1,0 +1,37 @@
+{
+  "source": "https://github.com/RM-Arena/Arena-1",
+  "source_sha256": {
+    "base-ch4.glb": "b12cfed0ac48510e508c8feba8c076daaee588f37e687e6c2deb277975ad0114",
+    "outpost-ch4.glb": "dc740f2dca874114cd41bc20eb9050372838115a496f41b9ac0a675d3324e300"
+  },
+  "season": 2027,
+  "arena_size": [
+    28,
+    15
+  ],
+  "floor_slope_deg": 1.5,
+  "structures": [
+    {
+      "name": "arena2027_blue_base",
+      "kind": "base",
+      "team": "blue",
+      "position": [
+        11.588999999999999,
+        0.0,
+        0.196394411768902
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "arena2027_blue_outpost",
+      "kind": "outpost",
+      "team": "blue",
+      "position": [
+        3.024000000000001,
+        -3.9,
+        0.19426931764907296
+      ],
+      "yaw": 0
+    }
+  ]
+}

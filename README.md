@@ -352,3 +352,21 @@ We thanks colleagues @emNavi Tech (https://emnavi.tech/) who develope and mainta
 
 Also, we thanks the excellent work by Aerial Gym Simulator licensed(https://github.com/ntnu-arl/aerial_gym_simulator) under the BSD 3-Clause License. AirGym is modified and greatly improved upon Aerial Gym Simulator especially for Sim-to-Real task.
 # AirGym-RL
+
+
+## Local armor-impact task
+
+This development branch adds `armor_impact`: physical contact with selected
+armor on the static blue outpost/base, a 5 +/- 0.5 m/s normal impact-speed
+criterion, and a full two-second recovery window. It uses state observations,
+CTBR actions, separate actor/critic networks and optional imitation initialization.
+
+See [training, evaluation and physical-model limitations](docs/armor_impact.md).
+Install the per-environment controller-reset extension before using this task:
+
+```bash
+python tools/patch_controller_reset.py
+python tools/check_armor_impact.py --ctl_mode rate --num_envs 4 --headless --seed 42
+```
+
+Simulation success does not certify real-aircraft collision survival.

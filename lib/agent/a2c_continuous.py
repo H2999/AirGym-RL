@@ -87,6 +87,10 @@ class ContinuousA2CBase(A2CBase):
         update_time_start = time.time()
 
         self.set_train()
+        if self.normalize_input and self.config.get('freeze_input_normalization', False):
+            # Preserve an initialized policy's observation coordinate system
+            # while PPO fine-tunes its weights on a different state mixture.
+            self.model.running_mean_std.eval()
         self.curr_frames = batch_dict.pop('played_frames')
         self.prepare_dataset(batch_dict)
         self.algo_observer.after_steps()

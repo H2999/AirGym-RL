@@ -100,6 +100,8 @@ class AssetManager:
                     "color": asset_params['color'],
                     "links_per_asset": asset_params['links_per_asset'],
                     "gym_env_asset": gym_env_asset,
+                    "initial_position": asset_params.get("initial_position"),
+                    "initial_yaw": asset_params.get("initial_yaw", 0.0),
                 }
                 self.asset_list.append(asset_dict)
 
@@ -289,7 +291,12 @@ class AssetManager:
         assert semantic_id != 0
 
         # set asset handle
-        env_asset_handle = self.gym.create_actor(env_handle, gym_env_asset, start_pose, f"{asset_name}_{asset_idx}", env_id, collision_mask, semantic_id)
+        asset_pose = start_pose
+        if dict_item.get("initial_position") is not None:
+            asset_pose = gymapi.Transform()
+            asset_pose.p = gymapi.Vec3(*dict_item["initial_position"])
+            asset_pose.r = gymapi.Quat.from_euler_zyx(0, 0, dict_item["initial_yaw"])
+        env_asset_handle = self.gym.create_actor(env_handle, gym_env_asset, asset_pose, f"{asset_name}_{asset_idx}", env_id, collision_mask, semantic_id)
         if len(self.gym.get_actor_rigid_body_names(env_handle, env_asset_handle)) > 1:
             print("Env asset has rigid body with more than 1 link: ", len(self.gym.get_actor_rigid_body_names(env_handle, env_asset_handle)))
             sys.exit(0)

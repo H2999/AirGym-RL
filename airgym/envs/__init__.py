@@ -4,6 +4,20 @@ from airgym.utils.task_registry import task_registry
 
 TASK_CONFIGS = [
     {
+        "name": "armor_impact",
+        "config_module": "task.armor_impact_config",
+        "config_class": "ArmorImpactCfg",
+        "task_module": "task.armor_impact",
+        "task_class": "ArmorImpact"
+    },
+    {
+        "name": "arena2027",
+        "config_module": "task.arena2027_config",
+        "config_class": "Arena2027Cfg",
+        "task_module": "task.arena2027",
+        "task_class": "Arena2027"
+    },
+    {
         'name': 'hovering',
         'config_module': 'base.hovering_config',
         'config_class': 'HoveringCfg',

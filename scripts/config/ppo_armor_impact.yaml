@@ -1,0 +1,60 @@
+params:
+  algo:
+    name: a2c_continuous
+  model:
+    name: continuous_a2c_logstd
+  load_checkpoint: false
+  network:
+    name: actor_critic
+    separate: true
+    space:
+      continuous:
+        fixed_sigma: true
+    mlp:
+      units:
+      - 128
+      - 128
+      - 64
+      d2rl: false
+      activation: elu
+      initializer:
+        name: default
+        scale: 2
+  config:
+    env_name: armor_impact
+    env_config:
+      use_image: false
+    name: ppo_armor_impact
+    reward_shaper:
+      scale_value: 0.1
+    normalize_advantage: true
+    gamma: 0.995
+    tau: 0.95
+    ppo: true
+    learning_rate: 1.0e-05
+    lr_schedule: constant
+    kl_threshold: 0.008
+    save_best_after: 10
+    score_to_win: 100000
+    grad_norm: 1.5
+    entropy_coef: 0
+    truncate_grads: true
+    e_clip: 0.2
+    clip_value: false
+    num_actors: 64
+    horizon_length: 32
+    minibatch_size: 2048
+    mini_epochs: 5
+    critic_coef: 2
+    normalize_input: true
+    bounds_loss_coef: 0.0001
+    max_epochs: 2000
+    normalize_value: true
+    use_diagnostics: true
+    value_bootstrap: true
+    use_smooth_clamp: false
+    save_frequency: 100
+    player:
+      deterministic: true
+      games_num: 100000
+      use_vecenv: true

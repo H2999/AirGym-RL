@@ -1,0 +1,92 @@
+{
+  "date": "2026-11-02",
+  "branch": "dev",
+  "remote": "https://github.com/H2999/AirGym-RL.git",
+  "model": "/home/hzq/RM/AirGym_RL/AirGym/runs/armor_impact_ready.pth",
+  "source_checkpoint": "/home/hzq/RM/AirGym_RL/AirGym/runs/armor_impact_frozen_02-17-21-49/nn/last_armor_impact_frozen_ep_30_rew__163.94312_.pth",
+  "sha256": "6d183b772b449450e19a06e1c0b4f0a7379c86161e6cd6f5827b31050062003e",
+  "training": "Reference trajectory behavior cloning / DAgger initialization, followed by 30 PPO epochs; frozen input normalization, separate actor/critic.",
+  "controller": "rlPx4Controller reset_idx extension installed; independent integrator reset on every episode.",
+  "scope": "Simulation state observations, static blue base/outpost, official X152b spherical body collider; no real-aircraft damage model or visual detector.",
+  "integration_checks": "PASS: per-controller partial reset, measured physical armor contacts and rebound, no proximity-only hits, speed qualification, full 2 s recovery window, crash termination, reset observations.",
+  "evaluations": [
+    {
+      "checkpoint": "/home/hzq/RM/AirGym_RL/AirGym/runs/armor_impact_frozen_02-17-21-49/nn/last_armor_impact_frozen_ep_30_rew__163.94312_.pth",
+      "checkpoint_sha256": "6d183b772b449450e19a06e1c0b4f0a7379c86161e6cd6f5827b31050062003e",
+      "seed": 321,
+      "episodes": 100,
+      "warm_start_probability": 0.0,
+      "criteria": {
+        "max_tangential_speed": 1.0,
+        "stable_hold_seconds": 0.25,
+        "max_tilt_deg": 30.0,
+        "max_recovery_speed": 0.7,
+        "max_recovery_angvel": 1.5,
+        "max_recovery_position_error": 1.0,
+        "recovery_standoff": 0.7,
+        "min_height": 0.28,
+        "max_height": 4.0
+      },
+      "required_speed_mps": 5.0,
+      "speed_tolerance_mps": 0.5,
+      "recovery_deadline_seconds": 2.0,
+      "hit_rate": 0.97,
+      "valid_hit_rate": 0.97,
+      "success_rate": 0.89,
+      "crash_rate": 0.01,
+      "mean_hit_speed_mps": 5.283011264407758,
+      "successful_episodes": 89,
+      "normal_speed_min_mps": 4.811388969421387,
+      "normal_speed_max_mps": 5.477391242980957,
+      "by_target": {
+        "base": {
+          "episodes": 49,
+          "success_rate": 0.8775510204081632
+        },
+        "outpost": {
+          "episodes": 51,
+          "success_rate": 0.9019607843137255
+        }
+      }
+    },
+    {
+      "checkpoint": "/home/hzq/RM/AirGym_RL/AirGym/runs/armor_impact_frozen_02-17-21-49/nn/last_armor_impact_frozen_ep_30_rew__163.94312_.pth",
+      "checkpoint_sha256": "6d183b772b449450e19a06e1c0b4f0a7379c86161e6cd6f5827b31050062003e",
+      "seed": 77,
+      "episodes": 10,
+      "warm_start_probability": 0.0,
+      "criteria": {
+        "max_tangential_speed": 1.0,
+        "stable_hold_seconds": 0.25,
+        "max_tilt_deg": 30.0,
+        "max_recovery_speed": 0.7,
+        "max_recovery_angvel": 1.5,
+        "max_recovery_position_error": 1.0,
+        "recovery_standoff": 0.7,
+        "min_height": 0.28,
+        "max_height": 4.0
+      },
+      "required_speed_mps": 5.0,
+      "speed_tolerance_mps": 0.5,
+      "recovery_deadline_seconds": 2.0,
+      "hit_rate": 1.0,
+      "valid_hit_rate": 1.0,
+      "success_rate": 1.0,
+      "crash_rate": 0.0,
+      "mean_hit_speed_mps": 5.269687843322754,
+      "successful_episodes": 10,
+      "normal_speed_min_mps": 4.866997241973877,
+      "normal_speed_max_mps": 5.4837646484375,
+      "by_target": {
+        "base": {
+          "episodes": 5,
+          "success_rate": 1.0
+        },
+        "outpost": {
+          "episodes": 5,
+          "success_rate": 1.0
+        }
+      }
+    }
+  ]
+}
