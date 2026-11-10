@@ -1,96 +1,75 @@
-# 装甲板撞击与恢复任务
+# 真实接触后的自主姿态恢复任务
 
-分支：`dev`。任务名：`armor_impact`。在已有蓝方前哨站、基地的固定场景中，每个 episode 随机选择一块指定装甲板；策略使用 CTBR（`rate`），全程输出角速度和总推力；前三个归一化动作映射到 ±3 rad/s，推力动作映射到 0–1。接触时没有手动施加反弹冲量，也没有切换到位置控制器。
+> 2026-11-08更正：整机装配后称重205g，没有新增组件；原160g记录不准确。当前URDF/build_report仍是旧160g模型，待质量分布与重心更新。以下160g构建/验证结果保留为历史，不代表205g实机。测量方法见[重心测量](hardware/center_of_mass.md)。
 
-## 成功标准
+当前任务：`armor_impact`，schema 为 `armor_impact_attitude_v3_user160`，观测 30 维。当前飞机为从用户 CAD 重组的 `user160_cad_v1`，总质量 160g。
 
-1. 指定装甲板的独立碰撞 actor 检测到接触力，且飞机从板面正面接近。单纯距离近不计命中，碰到其他建筑部分不计命中。
-2. 接触前一控制帧的板面法向接近速度为 **5 ± 0.5 m/s**，切向速度不超过 **1 m/s**。这是离散采样的速度估计，不是无限精度的接触瞬时测速。
-3. 必须在前 **6 秒**内接触目标，撞击后继续物理仿真 **2 秒**。期间高度越界、触地风险、异常角速度等判失败。
-4. 2 秒期限末尾连续 **0.25 秒**满足：倾角小于 **30°**、线速度小于 **0.7 m/s**、角速度小于 **1.5 rad/s**，且距板外 0.7 m 的恢复参考位置不超过 **1 m**。
+目标是让策略自己学会：飞向指定装甲板 → 以约 5 m/s 实际接触 → 在撞击后的 2 秒内稳定姿态并继续飞行。碰撞后不要求返回固定坐标，不给出恢复轨迹，不施加手写反弹冲量，不切换到位置/姿态控制器接管。全程使用相同的 CTBR 接口和底层角速度内环。
 
-速度、时限、恢复阈值和接触材料参数均在 `airgym/envs/task/armor_impact_config.py` 的 `impact` 中配置。撞击速度按法向定义，不能用高速擦边替代正面命中。
+## 碰撞和成功标准
 
-实际候选模型及测试结果见 [本地验证报告](armor_impact_validation.md)。
+- 用独立的装甲板碰撞 actor 和接触力判定命中，靠近或穿过目标坐标不算命中。
+- 撞前一控制帧的板面法向接近速度须为 5±0.5 m/s，切向速度不超过 1 m/s。
+- 碰撞由 PhysX 求解接触冲量、摩擦和角动量变化。可能被挡住、滑动、转动或自然弹开；成功判定不要求出现反弹。
+- 命中后继续运行 2 秒，不能在接触时立即重置。末尾连续 0.25 秒倾角小于 30°、角速度小于 1.5 rad/s，且没有触地风险、越界或数值异常，才算姿态恢复成功。
+- 默认 `require_low_speed=False`：稳定姿态时可以仍有水平运动，不要求悬停或回到某个恢复点。线速度有平滑的奖励项，若任务确实需要停稳，可显式启用 `require_low_speed`。
+- 没有参考控制轨迹或模仿学习初始化。默认 `warm_start_probability=0`，每回合从静止开始；如自行开启接近起步课程，其只改变 reset 初始状态，不修改碰撞后状态。
 
-## 训练
+任务奖励只评价接近与撞速、撞后的倾角/角速度/速度和终局成功，不规定恢复动作。环境中的 `reset_idx` 只在回合开始或结束时执行；不会在正常撞击时把飞机摆正。
 
-首次使用本任务需要为已安装的控制器增加每个环境独立重置积分状态的接口（当前电脑已安装）：
+## 安装与训练
+
+当前机器的控制器独立积分重置接口已经安装。其他机器需先激活对应环境，然后运行一次：
 
 ```bash
-source /home/hzq/RM/AirGym_RL/activate_airgym.sh
 python tools/patch_controller_reset.py
 ```
 
-补丁只增加 `reset_idx` Python 接口，不改变控制增益。任务每次重置只清零对应环境的控制器状态，防止回合间积分残留。补丁源代码随仓库提供，供其他电脑复现。
+该补丁给 rlPx4Controller 增加按环境清零积分状态和配置角速度 PID 参数的接口。未指定参数时保持官方增益；当前 160g 机型使用单独的仿真 PI 参数，reset 后保持这些参数。否则旧的积分状态或默认增益会污染新回合。
 
-在当前电脑：
+当前电脑从随机网络训练：
 
 ```bash
 source /home/hzq/RM/AirGym_RL/activate_airgym.sh
-python scripts/train_armor_impact.py --ctl_mode rate --num_envs 256 --headless --epochs 2000 --seed 42
+python scripts/train_armor_impact.py --ctl_mode rate --num_envs 256 --headless --epochs 2000 --seed 61
 ```
 
-64 和 256 个环境都满足当前 minibatch 配置。训练产物在 `runs/ppo_armor_impact_*/nn/`；训练日志包含 `impact/hit_rate`、`impact/valid_hit_rate` 和 `impact/success_rate`，这些是训练期间累计值，包含训练专用的接近起步样本，不能当作严格评估成功率。
+默认网络：独立 actor/critic，MLP [128,128,64]，PPO。归一化动作前三维映射到 ±3 rad/s，最后一维映射到内环混控前的 0–1 collective 指令，再由各电机的静态推力插值映射到牛顿。训练入口默认不加载模型。新权重保存在 `runs/ppo_armor_user160_*/nn/`，包含机型标识；继续训练只能加载该机型、相同 30 维任务的 checkpoint。
 
-训练默认有 10% 样本从距板 0.45–0.8 m、5 m/s 的接近状态起步，让策略早期接触恢复阶段；其余从距板 1.5–3 m 的静止状态起步。下述独立评估关闭所有高速起步。
-
-### 可选：先用参考轨迹初始化，再做 PPO
-
-从随机网络直接探索接触和恢复比较困难，可以先使用行为克隆与 DAgger 初始化网络：
-
-```bash
-python scripts/bootstrap_armor_impact.py --ctl_mode rate --num_envs 64 --headless --seed 45 --output runs/armor_impact_bootstrap.pth
-python scripts/train_armor_impact.py --ctl_mode rate --num_envs 256 --headless --epochs 300 --seed 46 --checkpoint runs/armor_impact_bootstrap.pth
-```
-
-初始化会先收集参考控制器轨迹，再收集参考动作与网络动作混合、最后完全由网络执行的轨迹，拟合网络动作。参考控制器仅在这个数据生成脚本内使用；常规训练和独立评估不会调用它。参考速度设为目标的 0.92 倍以补偿有限姿态响应造成的超调，实际命中仍严格按 **5 ± 0.5 m/s** 判定。初始化还会使用演示的折扣回报预拟合独立 critic，降低随机价值估计在微调开始时破坏动作的风险。PPO 使用固定的小学习率；从 checkpoint 微调时冻结观测归一化统计，防止已初始化的输入坐标系发生漂移。初始化后的 checkpoint 是模仿学习结果，继续 PPO 后才是混合训练结果，二者应分别评估。
-
-也可以直接使用通用入口（训练轮数取 YAML）：
+也可使用通用入口：
 
 ```bash
 python scripts/runner.py --task armor_impact --ctl_mode rate --num_envs 256 --headless
 ```
 
-`--checkpoint` 可加载相同网络结构的本任务 checkpoint 继续优化。不能直接使用气球/悬停 checkpoint：观测维度不同。
+## 评估与观看
 
-## 评估和观看
-
-下面路径是示意，必须换成实际生成的 checkpoint：
+训练后把 `CHECKPOINT` 设置为本次新生成的 `.pth` 文件路径，然后执行：
 
 ```bash
-python scripts/eval_armor_impact.py --ctl_mode rate --num_envs 16 --headless --seed 77 --episodes 100 --checkpoint "$CHECKPOINT" --report runs/armor_impact_evaluation.json
+python scripts/eval_armor_impact.py --ctl_mode rate --num_envs 16 --headless --seed 77 --episodes 100 --checkpoint "$CHECKPOINT" --report runs/armor_attitude_eval.json
 ```
 
-先把 `CHECKPOINT` 设置成真实存在的 `.pth` 文件绝对路径。脚本会在打开仿真前检查文件，避免因路径错误出现黑窗重试。观看时去掉 `--headless`，将 `--num_envs` 改为 `1`。评估从静止状态起步，输出每个 episode 的命中速度、接触力采样峰值、恢复时间、失败标记和成功率，以及基地/前哨站的分组成功率。没有命中的 episode 同样计入分母。
+观看时去掉 `--headless`，改为 `--num_envs 1`。每个新回合相机会对准选中的装甲板。评估从静止起步，记录命中速度、接触力采样值、末端姿态/角速度/速度、失败判定及成功率。
 
-避免同时在 8 GB 显卡上运行训练和评估。无相机的 headless 模式不初始化 Vulkan 渲染器。
+旧版 `runs/armor_impact_ready.pth` 是 **33 维、参考轨迹初始化版本**，与当前任务不兼容。旧的 30 维官方飞机测试权重同样不适用于新机型。旧版成功率不适用于本版本，训练与评估入口检查维度和机型标识。旧初始化入口 `scripts/bootstrap_armor_impact.py` 已禁用，参考控制器代码已移除；旧文件和报告仅用于保留历史。
 
-## 代码位置
-
-- `airgym/envs/task/armor_impact.py`：33 维状态观测、接触事件、奖励、2 秒恢复阶段和 episode 指标。
-- `airgym/envs/task/armor_impact_config.py`：环境及任务阈值、材料随机化、PhysX 子步。
-- `scripts/config/ppo_armor_impact.yaml`：参考气球任务的 PPO 配置；actor 与 critic 分离，避免价值网络的梯度直接改动已初始化的 actor。
-- `scripts/train_armor_impact.py`：可指定 `--epochs` 的训练入口。
-- `scripts/eval_armor_impact.py`：有界评估和 JSON 报告。
-- `scripts/bootstrap_armor_impact.py`、`airgym/utils/armor_reference.py`：可选参考轨迹初始化，不参与最终评估控制。
-- `tools/build_armor_assets.py`：从已有模型拆分独立装甲板 actor，原模型不修改。前哨站为正面的 `ArmorPanel`，基地为顶部正面的 `SmallArmor`；同板表面的灯条/覆盖件归入相同接触 actor，避免遮挡造成误判。
-- `tools/check_armor_impact.py`：GPU 物理集成检查。
-
-重新生成碰撞资产和检查：
+## 验证
 
 ```bash
-python tools/build_armor_assets.py
 python tools/check_armor_impact.py --ctl_mode rate --num_envs 4 --headless --seed 42
+python tools/check_armor_impact.py --ctl_mode rate --num_envs 4 --headless --seed 42 --zero-restitution
+python tools/check_user_aircraft.py --ctl_mode rate --num_envs 4 --headless --seed 64
 ```
 
-## 仿真适用范围
+检查包括：指定装甲板的真实接触、接触引起动量变化、距离近不计命中、足够长的恢复窗口、速度合格判定、姿态稳定不依赖恢复位置、仍在旋转不能成功、触地失败、部分 reset 及控制器独立重置。`--zero-restitution` 验证没有材料弹性恢复也能正常定义和判定任务。
 
-- 当前仍使用官方 X152b：机身碰撞几何是半径 **0.2 m 的球**，不是实机护圈模型；模型质量和惯量也未替换为用户飞机。
-- 建筑及装甲板固定，支持 PhysX 刚体接触、摩擦和恢复系数产生的回弹；没有旋转装甲板、弹簧安装结构、材料变形、桨叶损伤或电池碰撞损伤。
-- 每个环境随机设置恢复系数 0.05–0.35、摩擦 0.3–0.7，数值是训练假设，未经实物辨识。控制周期 0.01 s，物理 4 子步，接触力数值不能解释为实物可承受载荷。
-- 为避免向量环境中的全局地形网格相互覆盖，训练场景使用平地，不含原预览场景的 1.5° 坡面。
-- 和气球例程一样，观测来自仿真真值，含目标相对位置、姿态、速度、板面法向、碰撞阶段、恢复参考位置和上次动作。没有装甲板视觉检测；真机还需替换为可测量的状态及碰撞事件估计。
-- “不炸机”在代码中只能转化为上述仿真成功指标；通过检查、奖励增加或完成若干 epoch 都不等于策略达标，也不能保证真机结构和动力系统不损坏。需要独立评估报告判断模型是否学会任务。
+这些是环境/训练链路检查，不代表已训练出达标策略。当前机型验证记录见 [user_aircraft.md](user_aircraft.md)。`armor_attitude_validation.md` 保留的是此前官方机型的历史检查。
 
-参考控制器使用官方 X152b 的总质量 0.601 kg 和 4×9.59 N 推力模型。替换自己的飞机后必须同步更新这些参数，不能把这套初始化直接当作自己的实机控制器。
+## 真实程度的边界
+
+已使用用户 CAD 的防护框、立柱及设备布局，采用 162 个凸碰撞形状，质量设为用户提供的 0.160kg。零件质量分配、质心和惯量仍是估算；电机高度、反扭矩系数、内环增益也未经过实机辨识。建筑/钢板为固定刚体，地面为平面；没有模拟护圈变形、桨叶折断、电机失效或结构损伤。
+
+摩擦范围 0.3–0.7、恢复系数范围 0–0.35 是未标定的材料假设，并不是写好的回弹动作。控制周期 0.01 s，4 个物理子步。物理接触能够产生姿态扰动，但不能据此声称已精确复现真实撞击，更不能把未触地当作结构没有损坏。
+
+进一步贴近实机需要测量或校准质量分布、质心、惯量、电机动态和钢板接触参数。当前观测来自仿真真值，尚未接入真实视觉识别和状态估计；实机迁移还需对应这些接口与延迟。

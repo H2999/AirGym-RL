@@ -43,7 +43,6 @@ class ArmorImpact(Hovering):
         self.target_ids = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.target_positions = torch.zeros(self.num_envs, 3, device=self.device)
         self.normals = torch.zeros_like(self.target_positions)
-        self.recovery_positions = torch.zeros_like(self.target_positions)
         self.hit = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         self.valid_hit = self.hit.clone()
         self.impact_step = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
@@ -69,15 +68,21 @@ class ArmorImpact(Hovering):
         # neighboring vector environments. Structures retain source elevations.
         super()._create_envs()
         rng = np.random.RandomState(self.cfg.seed if self.cfg.seed >= 0 else 42)
+        plate_actors = {2+2*i for i in range(len(TARGETS))}
         for env in self.envs:
-            restitution = rng.uniform(*self.cfg.impact.restitution_range)
-            friction = rng.uniform(*self.cfg.impact.friction_range)
+            restitution_sample, friction_sample = rng.uniform(size=2)
             for actor in range(self.gym.get_actor_count(env)):
+                material = self.cfg.steel_plate if actor in plate_actors else self.cfg.impact
+                restitution = material.restitution_range[0]+restitution_sample*(material.restitution_range[1]-material.restitution_range[0])
+                friction = material.friction_range[0]+friction_sample*(material.friction_range[1]-material.friction_range[0])
                 props = self.gym.get_actor_rigid_shape_properties(env, actor)
                 for shape in props:
                     shape.restitution = restitution
                     shape.friction = friction
                 self.gym.set_actor_rigid_shape_properties(env, actor, props)
+                if actor in plate_actors:
+                    self.gym.set_rigid_body_color(env,actor,0,gymapi.MESH_VISUAL,
+                        gymapi.Vec3(*self.cfg.steel_plate.color))
 
     def reset_idx(self, env_ids):
         if len(env_ids) == 0:
@@ -100,7 +105,6 @@ class ArmorImpact(Hovering):
         self.root_states[env_ids,5] = torch.sin(yaw/2)
         self.root_states[env_ids,6] = torch.cos(yaw/2)
         self.root_states[env_ids,7:10] = -normal * (warm.float()*self.settings.speed)[:,None]
-        self.recovery_positions[env_ids] = self.target_positions[env_ids] + self.settings.recovery_standoff * normal
         self.initial_distance[env_ids] = distance
         self.hit[env_ids] = False
         self.valid_hit[env_ids] = False
@@ -143,10 +147,9 @@ class ArmorImpact(Hovering):
         o[:,21] = self.hit.float()
         o[:,22] = torch.where(self.hit, ((self.progress_buf-self.impact_step)*self.dt/self.settings.recovery_seconds).clamp(0,1), 0)
         o[:,23] = self.settings.speed
-        o[:,24:27] = self.recovery_positions - self.root_positions
-        o[:,27:31] = self.pre_actions
-        o[:,31] = self.valid_hit.float()
-        o[:,32] = self.stable_steps.float()/self.hold_steps
+        o[:,24:28] = self.pre_actions
+        o[:,28] = self.valid_hit.float()
+        o[:,29] = self.stable_steps.float()/self.hold_steps
         return o
 
     def step(self, actions):
@@ -186,10 +189,10 @@ class ArmorImpact(Hovering):
         up = rotation[:,2,2]
         speed = self.root_linvels.norm(dim=-1)
         angular_speed = self.root_angvels.norm(dim=-1)
-        recovery_error = (self.root_positions-self.recovery_positions).norm(dim=-1)
         stable = self.hit & (up > math.cos(math.radians(self.settings.max_tilt_deg)))
-        stable &= (speed < self.settings.max_recovery_speed) & (angular_speed < self.settings.max_recovery_angvel)
-        stable &= recovery_error < self.settings.max_recovery_position_error
+        stable &= angular_speed < self.settings.max_recovery_angvel
+        if self.settings.require_low_speed:
+            stable &= speed < self.settings.max_recovery_speed
         self.stable_steps = torch.where(stable, self.stable_steps+1, torch.zeros_like(self.stable_steps))
         elapsed = self.progress_buf - self.impact_step
         finished = self.hit & (elapsed >= self.recovery_steps)
@@ -218,7 +221,13 @@ class ArmorImpact(Hovering):
         # speed, where the Gaussian speed bonus alone is almost flat.
         approach_reward -= self.dt*(0.1*(approach_speed-self.settings.speed).square()
                                     + 0.5*(lateral.square()+relative[:,2].square()))
-        recovery_reward = self.dt*(3*torch.exp(-2*recovery_error.square()) + 2*up.clamp(0,1) + 2*torch.exp(-speed.square()) - 2)
+        # Score the resulting attitude, not a prescribed recovery trajectory or
+        # location. The policy may retreat, brake or keep flying as it learns.
+        recovery_reward = self.dt*(
+            4*up.clamp(0,1).square()
+            + 3*torch.exp(-(angular_speed/self.settings.max_recovery_angvel).square())
+            + torch.exp(-self.root_linvels[:,2].square())
+            - 0.2*speed.square())
         reward = torch.where(old_hit, recovery_reward, approach_reward)
         reward += new_hit.float()*(10 + 40*qualified.float())
         reward += 150*success.float() - 60*crash.float() - 20*miss.float() - 20*timeout.float()
@@ -238,6 +247,7 @@ class ArmorImpact(Hovering):
             'post_impact_seconds': torch.where(self.hit, elapsed*self.dt, torch.zeros_like(speed)),
             'recovery_speed': speed.clone(), 'recovery_angvel': angular_speed.clone(),
             'upright_cos': up.clone(), 'target_id': self.target_ids.clone(),
+            'stable_at_deadline': (self.stable_steps >= self.hold_steps).clone(),
         }
         self.total_completed += len(ids)
         self.total_hits += int(self.hit[ids].sum())

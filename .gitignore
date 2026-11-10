@@ -16,3 +16,5 @@ logs
 *.bag.active
 pretraned
 trained_model
+# Original flight/video captures stay local; commit only templates and manifests.
+data/captures/

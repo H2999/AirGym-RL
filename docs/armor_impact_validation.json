@@ -88,5 +88,7 @@
         }
       }
     }
-  ]
+  ],
+  "current_task_compatible": false,
+  "legacy_schema": "33-observation reference-initialized standoff-recovery"
 }

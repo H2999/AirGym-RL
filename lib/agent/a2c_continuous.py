@@ -418,6 +418,8 @@ class A2CAgent(ContinuousA2CBase):
         
     def save(self, fn):
         state = self.get_full_state_weights()
+        if self.config.get('task_profile'):
+            state['task_profile'] = self.config['task_profile']
         torch_ext.save_checkpoint(fn, state)
 
     def restore(self, fn, set_epoch=True):

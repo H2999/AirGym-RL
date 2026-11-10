@@ -1,0 +1,182 @@
+{
+  "profile_id": "user160_cad_v1",
+  "status": "measured_mass_corrected_simulation_model_update_pending",
+  "source": "User 160g takeoff weight; local SolidWorks assembly and motor datasheet screenshots, 2026-11-02; corrected by user full-assembly weighing on 2026-11-08: 205g, no added components",
+  "measured": {
+    "takeoff_mass_kg": 0.205,
+    "motor_spacing_lateral_m": 0.081,
+    "motor_spacing_longitudinal_m": 0.06,
+    "motor": "1202.5 11500KV",
+    "propeller": "GF2023",
+    "thrust_test_voltage_v": 7.4,
+    "reported_thrust_gf": [
+      [
+        0.5,
+        66
+      ],
+      [
+        1.0,
+        127
+      ]
+    ],
+    "target_material": "steel",
+    "target_mount": "fixed"
+  },
+  "interpretations_to_confirm": {
+    "reported_thrust_is_per_motor": true,
+    "spacing_is_between_motor_centers": true,
+    "motor_layout_is_centered_rectangle": true,
+    "body_x_axis_is_forward": true
+  },
+  "conditional_derived_values": {
+    "condition": "Thrust figures are per motor; rectangular centered motor layout; x forward, y left, z up; current measured assembly mass 205g; unchanged propulsion assumed",
+    "motor_xy_locations_m": [
+      [
+        0.03,
+        -0.0405
+      ],
+      [
+        -0.03,
+        0.0405
+      ],
+      [
+        0.03,
+        0.0405
+      ],
+      [
+        -0.03,
+        -0.0405
+      ]
+    ],
+    "gravity_m_s2": 9.80665,
+    "weight_n": 2.0103632499999997,
+    "thrust_per_motor_at_half_command_n": 0.6472389,
+    "thrust_per_motor_at_full_command_n": 1.24544455,
+    "maximum_total_thrust_n": 4.9817782,
+    "maximum_thrust_to_weight": 2.4780487804878053,
+    "hover_thrust_per_motor_gf": 51.25,
+    "translational_kinetic_energy_at_5m_s_j": 2.5625
+  },
+  "unknown": {
+    "guard_outer_length_m": null,
+    "guard_outer_width_m": null,
+    "guard_height_m": null,
+    "guard_plate_thickness_m": null,
+    "guard_post_geometry": null,
+    "guard_material_and_compliance": null,
+    "center_of_mass_m": null,
+    "inertia_kg_m2": null,
+    "motor_z_relative_to_center_of_mass_m": null,
+    "motor_spin_directions": null,
+    "motor_torque_to_thrust_ratio_m": null,
+    "motor_response_time_s": null,
+    "actual_flight_controller_rate_gains": null,
+    "contact_friction": null,
+    "contact_restitution": null
+  },
+  "cad_derived": {
+    "assembly_dimensions_cad_xyz_m": [
+      0.13920000195503235,
+      0.11819939315319061,
+      0.0599999996647238
+    ],
+    "assembly_unique_parts": 13,
+    "assembly_instances": 34,
+    "motor_body_dimensions_m": [
+      0.0158,
+      0.0089
+    ],
+    "motor_mass_kg": 0.0045,
+    "source_assembly_sha256": "b1d34d056800bf6a7f1335e801eecdd7811abd5fa6472f0c5d81a96ab66f24c4"
+  },
+  "estimated_properties": {
+    "center_of_mass_from_lower_plate_center_m": [
+      0.0053771429021513715,
+      0.0004175209420695193,
+      0.022835116982001004
+    ],
+    "inertia_kg_m2": [
+      [
+        0.00016216019966176293,
+        3.426815800420287e-07,
+        9.502460621414932e-06
+      ],
+      [
+        3.426815800420287e-07,
+        0.00017511799008591484,
+        -2.1224706387047268e-06
+      ],
+      [
+        9.502460621414932e-06,
+        -2.1224706387047268e-06,
+        0.00023547729224361472
+      ]
+    ],
+    "motor_positions_m": [
+      [
+        0.024622857097848627,
+        -0.04091752094206952,
+        -0.016385116982001003
+      ],
+      [
+        -0.03537714290215137,
+        0.040082479057930484,
+        -0.016385116982001003
+      ],
+      [
+        0.024622857097848627,
+        0.040082479057930484,
+        -0.016385116982001003
+      ],
+      [
+        -0.03537714290215137,
+        -0.04091752094206952,
+        -0.016385116982001003
+      ]
+    ],
+    "warning": "Mass distribution, inertia, motor Z placement and reaction torque are estimates; no damage or compliance model",
+    "applies_to_profile": "historical user160_cad_v1 / 0.160kg only; not calibrated for measured 205g aircraft"
+  },
+  "full_assembly_step_verification": {
+    "source_step": "/home/hzq/下载/3下置无人机/无人之机.STEP",
+    "source_step_sha256": "2ee662aec869941dfcd8fd259f2b884353e736dc55d079493f48e4f64703bbbd",
+    "step_solids": 40,
+    "step_faces": 1735,
+    "body_bounds_error_m": 2.685046059665297e-06,
+    "passed": true,
+    "report": "docs/user_aircraft_assembly_step_validation.json"
+  },
+  "propeller_visual": {
+    "blade_count": 3,
+    "nominal_diameter_m": 0.0508,
+    "geometry": "approximate chord/sweep/twist, not measured GF2023 geometry",
+    "display_only": true,
+    "blade_collision": false,
+    "blade_aerodynamics": false
+  },
+  "measurement_history": [
+    {
+      "takeoff_mass_kg": 0.16,
+      "status": "superseded_inaccurate_estimate",
+      "reported_on": "2026-11-02"
+    },
+    {
+      "takeoff_mass_kg": 0.205,
+      "status": "user_reported_full_assembly_weighing",
+      "reported_on": "2026-11-08",
+      "components_added": false
+    }
+  ],
+  "reported_center_of_mass": {
+    "qualitative": "upper/heavy top as reported by user",
+    "measured": false,
+    "position_m": null,
+    "reference_frame": null,
+    "note": "No numeric COM or shift inferred from the 45g mass correction."
+  },
+  "existing_simulation_model": {
+    "profile_id": "user160_cad_v1",
+    "mass_kg": 0.16,
+    "status": "historical_approximation_pending_205g_mass_distribution_update"
+  }
+}

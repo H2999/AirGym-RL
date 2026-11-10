@@ -1,0 +1,40 @@
+{
+  "profile": "user160_cad_v1",
+  "source_step": "/home/hzq/下载/3下置无人机/无人之机.STEP",
+  "source_step_sha256": "2ee662aec869941dfcd8fd259f2b884353e736dc55d079493f48e4f64703bbbd",
+  "urdf_sha256": "adc39dd85470815e7cd9aca50fe095e9a9320bc101cbfd87158c29f69826046e",
+  "assembled_visual_sha256": "49ecb1b4945b7b9f1d5f1db92c3162e8095a89972be00ec7459f23f9dc79a60d",
+  "urdf_cad_visual_instances": 34,
+  "step_topology_valid": true,
+  "step_solids": 40,
+  "step_faces": 1735,
+  "step_size_cad_xyz_m": [
+    0.1392,
+    0.11819402000000001,
+    0.06000000000000005
+  ],
+  "exact_step_volume_m3": 8.847009453752677e-05,
+  "step_meshing_deflection_mm": 0.02,
+  "body_bounds_error_m": 2.685046059665297e-06,
+  "step_to_urdf_surface": {
+    "points": 69523,
+    "mean_m": 9.572324039355414e-06,
+    "p99_m": 7.898294082612394e-05,
+    "max_m": 0.00021046441362936331,
+    "fraction_over_0_1mm": 0.0007623376436574947
+  },
+  "urdf_to_step_surface": {
+    "points": 31535,
+    "mean_m": 6.769344890428115e-06,
+    "p99_m": 6.218578178384055e-05,
+    "max_m": 0.00017524285065228628,
+    "fraction_over_0_1mm": 0.0006976375455842714
+  },
+  "passed": true,
+  "criteria": {
+    "bounds_max_m": 0.0005,
+    "surface_p99_max_m": 0.0005,
+    "surface_max_m": 0.001
+  },
+  "scope": "URDF base_link CAD visuals only; added parametric motors/props, collision convex decomposition, mass distribution, inertia and contact material are not calibrated by this check"
+}

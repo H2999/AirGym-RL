@@ -1,3 +1,9 @@
+## 用户飞机工程入口（当前整机实测205g）
+
+本地撞击恢复任务与开发 harness：[开发入口](AGENTS.md) · [当前进度](PROGRESS.md) · [功能清单](feature_list.json) · [运行命令](docs/harness/runbook.md) · [DM-FC01硬件与日志](docs/hardware/dm_fc01.md)。
+
+先运行 `bash init.sh`。此命令不安装依赖、不训练、不连接飞控。实机称重已更正为205g；现有CAD仿真仍为旧160g近似模型，质量分布与重心待同步。尚无达标恢复策略或实机部署结论。下文保留上游 AirGym 说明。
+
 ![GitHub License](https://img.shields.io/github/license/emnavi/airgym)
   ![GitHub Issues](https://img.shields.io/github/issues/emnavi/airgym)
   ![GitHub Release](https://img.shields.io/github/v/release/emnavi/airgym)
@@ -356,17 +362,22 @@ Also, we thanks the excellent work by Aerial Gym Simulator licensed(https://gith
 
 ## Local armor-impact task
 
-This development branch adds `armor_impact`: physical contact with selected
-armor on the static blue outpost/base, a 5 +/- 0.5 m/s normal impact-speed
-criterion, and a full two-second recovery window. It uses state observations,
-CTBR actions, separate actor/critic networks and optional imitation initialization.
+`armor_impact` now learns post-contact attitude recovery using PPO from scratch:
+physical contact with a selected fixed blue outpost/base armor plate at 5 +/-
+0.5 m/s, followed by a full two-second recovery window. No scripted rebound,
+recovery waypoint, reference trajectory or controller takeover is used.
 
-See [training, evaluation and physical-model limitations](docs/armor_impact.md).
-Install the per-environment controller-reset extension before using this task:
+See [training and physical-model limitations](docs/armor_impact.md). The task
+uses 30 state observations; historical 33-observation imitation checkpoints
+and their reported success rates are incompatible with this version.
+It loads the user's 160g CAD aircraft and GF2023/7.4V static thrust data;
+mass distribution, inertia, reaction torque and rate gains remain estimates.
+See [aircraft model and validation](docs/user_aircraft.md).
 
 ```bash
 python tools/patch_controller_reset.py
 python tools/check_armor_impact.py --ctl_mode rate --num_envs 4 --headless --seed 42
+python scripts/train_armor_impact.py --ctl_mode rate --num_envs 256 --headless
 ```
 
-Simulation success does not certify real-aircraft collision survival.
+Rigid-body simulation success does not certify real-aircraft collision survival.

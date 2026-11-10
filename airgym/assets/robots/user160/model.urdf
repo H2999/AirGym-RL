@@ -1,0 +1,1196 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="user160_cad">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0006816096637 5.292518984e-05 0.00207698666" />
+      <mass value="0.142" />
+      <inertia ixx="0.000126787437" ixy="3.882153895e-07" ixz="1.128938127e-05" iyy="0.000152486845" iyz="-1.98372097e-06" izz="0.0001886011487" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_00.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_00.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_01.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_02.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_03.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_04.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_05.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_06.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_07.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_08.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_09.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_10.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_11.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_12.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_13.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_14.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_15.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_16.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_17.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_18.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_19.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_20.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_21.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_22.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_23.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_24.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_25.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_26.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_27.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_28.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_29.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_30.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_00_31.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_01.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_01_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_02.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_00.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_01.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_02.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_03.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_04.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_05.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_06.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_07.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_08.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_09.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_10.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_11.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_12.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_13.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_14.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_15.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_16.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_17.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_18.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_19.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_20.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_21.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_22.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_23.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_24.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_25.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_26.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_27.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_28.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_29.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_30.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_02_31.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_03.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_03_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_04.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_00.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_01.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_02.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_03.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_04.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_05.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_06.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_07.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_08.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_09.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_10.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_11.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_12.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_13.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_14.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_15.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_16.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_17.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_18.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_19.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_20.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_21.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_22.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_23.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_24.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_25.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_26.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_27.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_28.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_29.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_30.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_04_31.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_05.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_00.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_01.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_02.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_03.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_04.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_05.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_06.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_07.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_08.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_09.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_10.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_11.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_12.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_13.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_14.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_15.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_16.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_17.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_18.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_19.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_20.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_21.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_22.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_23.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_24.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_25.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_26.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_27.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_28.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_29.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_30.obj" />
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_05_31.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_06.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_06_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_07.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_07_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_08.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_08_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_09.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_09_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_10.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_10_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_11.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_11_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_12.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_12_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_13.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_13_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_14.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_14_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_15.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_15_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_16.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_16_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_17.obj" />
+      </geometry>
+      <material name="material_0_16_0_18_0_20_1">
+        <color rgba="0.16 0.18 0.20 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_17_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_18.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_18_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_19.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_19_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_20.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_20_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_21.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_21_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_22.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_22_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_23.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_23_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_24.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_24_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_25.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_25_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_26.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_26_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_27.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_27_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_28.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_28_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_29.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_29_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_30.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_30_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_31.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_31_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_32.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_32_00.obj" />
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/instance_33.obj" />
+      </geometry>
+      <material name="material_0_65_0_08_0_08_1">
+        <color rgba="0.65 0.08 0.08 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/contact_33_00.obj" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="prop_1">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.0045" />
+      <inertia ixx="9.9915e-08" ixy="0" ixz="0" iyy="9.9915e-08" iyz="0" izz="1.404225e-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.008" />
+      <geometry>
+        <mesh filename="meshes/propeller_3blade_cw.obj" />
+      </geometry>
+      <material name="propeller_cw">
+        <color rgba="0.25 0.50 0.85 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link2prop_1" type="fixed" dont_collapse="true">
+    <parent link="base_link" />
+    <child link="prop_1" />
+    <origin xyz="0.0246228571 -0.04091752094 -0.01638511698" />
+  </joint>
+  <link name="prop_2">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.0045" />
+      <inertia ixx="9.9915e-08" ixy="0" ixz="0" iyy="9.9915e-08" iyz="0" izz="1.404225e-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.008" />
+      <geometry>
+        <mesh filename="meshes/propeller_3blade_cw.obj" />
+      </geometry>
+      <material name="propeller_cw">
+        <color rgba="0.25 0.50 0.85 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link2prop_2" type="fixed" dont_collapse="true">
+    <parent link="base_link" />
+    <child link="prop_2" />
+    <origin xyz="-0.0353771429 0.04008247906 -0.01638511698" />
+  </joint>
+  <link name="prop_3">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.0045" />
+      <inertia ixx="9.9915e-08" ixy="0" ixz="0" iyy="9.9915e-08" iyz="0" izz="1.404225e-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.008" />
+      <geometry>
+        <mesh filename="meshes/propeller_3blade_ccw.obj" />
+      </geometry>
+      <material name="propeller_ccw">
+        <color rgba="0.90 0.38 0.12 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link2prop_3" type="fixed" dont_collapse="true">
+    <parent link="base_link" />
+    <child link="prop_3" />
+    <origin xyz="0.0246228571 0.04008247906 -0.01638511698" />
+  </joint>
+  <link name="prop_4">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.0045" />
+      <inertia ixx="9.9915e-08" ixy="0" ixz="0" iyy="9.9915e-08" iyz="0" izz="1.404225e-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius=".0079" length=".0089" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.008" />
+      <geometry>
+        <mesh filename="meshes/propeller_3blade_ccw.obj" />
+      </geometry>
+      <material name="propeller_ccw">
+        <color rgba="0.90 0.38 0.12 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link2prop_4" type="fixed" dont_collapse="true">
+    <parent link="base_link" />
+    <child link="prop_4" />
+    <origin xyz="-0.0353771429 -0.04091752094 -0.01638511698" />
+  </joint>
+</robot>

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-11-08",
+  "board": "DM-FC01",
+  "sd_card_present_user_confirmed": true,
+  "manual": {
+    "local_path": "/home/hzq/下载/DM-FC01飞控板用户手册V1.0.pdf",
+    "version": "V1.0",
+    "document_date": "2026-04-17",
+    "sha256": "d1e65dee5973067feb8c094b895ef8170430cde8a71d5dcf1742cc76492e23b6",
+    "relevant_pages": [
+      3,
+      4,
+      9,
+      11,
+      12,
+      13
+    ]
+  },
+  "vendor_materials_repository": "https://gitee.com/kit-miao/dm-fc01",
+  "vendor_repository_scope": "Observed public manuals, models and prebuilt firmware; not the inspected full PX4 source",
+  "local_px4_source": {
+    "path": "/home/hzq/RM/px4-autopilot",
+    "remote": "https://github.com/H2999/damiao_px4.git",
+    "branch_observed": "devb",
+    "commit_observed": "dcc6516e3a755cca68c7c8a4bcf2fcaccf3e9df9",
+    "build_target": "damiao_dm-fc01_default",
+    "source_file_sha256": {
+      "boards/damiao/dm-fc01/default.px4board": "f5733a461a8aba1c2b6960bc8173c33c6440ea21590d4f201cf837564761e4fb",
+      "boards/damiao/dm-fc01/init/rc.board_sensors": "3c6399b40517fe835f5f03afd19809252a7a2e13268f4bc9f621fc0482c9e953",
+      "boards/damiao/dm-fc01/init/rc.board_defaults": "a5f59bbfed1d27b8c36bc318172253b1972e6296c56b05e3efab936aee71e39a",
+      "boards/damiao/dm-fc01/nuttx-config/nsh/defconfig": "1c996403c6c1286cfe97c90b0851098c781894dbaa1916345dffe87ed82e19a7",
+      "src/modules/logger/logged_topics.cpp": "632f746d394e0ca97531719d40b6a18da9dc31d46b59b01128b7bcfcc5bc80ae",
+      "src/modules/logger/logged_topics.h": "fff2e812617d4d40e3d403471ad19aec2b71dc2aa9bb0c427c1a0c3f6117f3b3",
+      "src/modules/logger/module.yaml": "5b1743a3e1d5da7c505ccf9c4ab574c1ae84f35af5d7677db17c8751c6ff07b7"
+    }
+  },
+  "manual_hardware": {
+    "mcu": "STM32H743",
+    "imus": [
+      "BMI088",
+      "ICM45686"
+    ],
+    "micro_sd_interface": "SDMMC1",
+    "pwm_dshot_outputs": 8
+  },
+  "observed_source_defaults_not_runtime": {
+    "BAT1_N_CELLS": 4,
+    "IMU_GYRO_RATEMAX": 2000,
+    "UXRCE_DDS_CFG": 201,
+    "logger_custom_file_replaces_profiles": true
+  },
+  "onboard_runtime": {
+    "verified": false,
+    "firmware_family": null,
+    "firmware_version": null,
+    "firmware_git_hash": null,
+    "parameters_export": null,
+    "ulog_sample": null,
+    "selected_accel_device_id": null,
+    "selected_gyro_device_id": null,
+    "measured_log_rates_hz": null,
+    "sd_write_dropouts": null
+  },
+  "warnings": [
+    "Source defaults are not installed parameter values. User aircraft was specified as 7.4V/2S, source default is 4S; inspect saved parameters.",
+    "No USB/serial access, firmware upload or parameter changes were performed.",
+    "ROS2 messages, state sources, timing and command mapping are not integrated."
+  ]
+}

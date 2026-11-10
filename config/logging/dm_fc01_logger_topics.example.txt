@@ -1,0 +1,32 @@
+# Candidate for inspected PX4 dcc6516e3a; NOT applied to SD card.
+# Verify on-board firmware first. This file REPLACES profiles there.
+# Fields: topic interval_ms instance. 0 means no extra throttle.
+# Instance numbers do not identify which physical IMU is selected.
+sensor_accel 0 0
+sensor_accel 0 1
+sensor_gyro 0 0
+sensor_gyro 0 1
+sensor_selection 0
+vehicle_imu_status 20 0
+vehicle_imu_status 20 1
+sensor_combined 0
+vehicle_angular_velocity 0
+vehicle_acceleration 0
+vehicle_attitude 0
+vehicle_attitude_setpoint 0
+vehicle_rates_setpoint 0
+vehicle_thrust_setpoint 0
+vehicle_torque_setpoint 0
+actuator_motors 0
+actuator_outputs 0
+actuator_outputs_debug 0
+control_allocator_status 20
+rate_ctrl_status 20
+battery_status 50
+esc_status 10
+vehicle_local_position 20
+vehicle_odometry 20
+vehicle_status 50
+vehicle_control_mode 50
+input_rc 20
+manual_control_setpoint 20

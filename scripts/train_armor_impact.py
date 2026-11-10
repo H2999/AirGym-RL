@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import isaacgym
 import yaml
+import torch
 from airgym.utils.helpers import get_args
 from scripts.runner import update_config
 from lib.torch_runner import Runner
@@ -22,6 +23,12 @@ if __name__ == '__main__':
         raise ValueError('Use --ctl_mode rate')
     if args['checkpoint'] and not Path(args['checkpoint']).is_file():
         raise FileNotFoundError(args['checkpoint'])
+    if args['checkpoint']:
+        weights=torch.load(args['checkpoint'],map_location='cpu')
+        if weights['model']['actor_mlp.layers.0.weight'].shape[1]!=30:
+            raise ValueError('Legacy imitation-initialized 33-observation models are incompatible. Train this task from scratch.')
+        if weights.get('task_profile')!='user160_cad_v1':
+            raise ValueError('Checkpoint aircraft differs from user160_cad_v1. Retrain for the 160g aircraft.')
     with open(Path(__file__).parent/'config/ppo_armor_impact.yaml') as f:
         config=yaml.safe_load(f)
     config=update_config(config,args)

@@ -119,6 +119,13 @@ class Hovering(BaseTask):
             self.action_lower_limits = torch.tensor(
                 [-6, -6, -6, 0], device=self.device, dtype=torch.float32)
             self.parallel_rate_control = ParallelRateControl(self.num_envs)
+            if hasattr(cfg, 'actuation'):
+                if not hasattr(self.parallel_rate_control, 'set_pid_params'):
+                    raise RuntimeError('Run python tools/patch_controller_reset.py for configurable rate gains')
+                self.parallel_rate_control.set_pid_params(
+                    np.array(cfg.actuation.rate_pid_p,dtype=np.float64),
+                    np.array(cfg.actuation.rate_pid_i,dtype=np.float64),
+                    np.array(cfg.actuation.rate_pid_d,dtype=np.float64))
         elif(cfg.env.ctl_mode == "prop"):
             self.action_upper_limits = torch.tensor(
                 [1, 1, 1, 1], device=self.device, dtype=torch.float32)
@@ -258,8 +265,18 @@ class Hovering(BaseTask):
         else:
             print("Mode error")
 
-        delta = .0*torch_rand_float(-1.0, 1.0, (self.num_envs, 1), device=self.device).repeat(1,4) + 9.59 
-        thrusts=(self.cmd_thrusts.to(self.device) *delta)
+        motor_commands=self.cmd_thrusts.to(self.device).clamp(0,1)
+        if hasattr(self.cfg, 'actuation'):
+            # Piecewise interpolation through the user's static thrust data.
+            # Zero command -> zero thrust is an explicit modeling assumption.
+            a=self.cfg.actuation
+            thrusts=torch.where(motor_commands<=.5,
+                motor_commands*(2*a.half_command_thrust_n),
+                a.half_command_thrust_n+(motor_commands-.5)*2*(a.full_command_thrust_n-a.half_command_thrust_n))
+            rotor_torque=thrusts*a.torque_to_thrust_m
+        else:
+            thrusts=motor_commands*9.59
+            rotor_torque=motor_commands*.2
 
         force_x = torch.zeros(self.num_envs, 4, dtype=torch.float32, device=self.device)
         force_y = torch.zeros(self.num_envs, 4, dtype=torch.float32, device=self.device)
@@ -272,7 +289,7 @@ class Hovering(BaseTask):
         # # clear actions for reset envs
         self.thrusts[reset_env_ids] = 0
         # # spin spinning rotors
-        prop_rot = ((self.cmd_thrusts)*0.2).to(self.device)
+        prop_rot = rotor_torque
 
         self.torques[:, 1, 2] = -prop_rot[:, 0]
         self.torques[:, 2, 2] = -prop_rot[:, 1]

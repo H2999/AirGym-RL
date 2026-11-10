@@ -24,20 +24,21 @@ params:
     env_name: armor_impact
     env_config:
       use_image: false
-    name: ppo_armor_impact
+    name: ppo_armor_user160
+    task_profile: user160_cad_v1
     reward_shaper:
       scale_value: 0.1
     normalize_advantage: true
     gamma: 0.995
     tau: 0.95
     ppo: true
-    learning_rate: 1.0e-05
-    lr_schedule: constant
+    learning_rate: 0.0003
+    lr_schedule: adaptive
     kl_threshold: 0.008
     save_best_after: 10
     score_to_win: 100000
     grad_norm: 1.5
-    entropy_coef: 0
+    entropy_coef: 0.001
     truncate_grads: true
     e_clip: 0.2
     clip_value: false

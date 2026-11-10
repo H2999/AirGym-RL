@@ -16,6 +16,7 @@ def put(env, ids, positions, velocities=None):
     env.root_states[ids,3:7] = 0
     env.root_states[ids,6] = 1
     actors = env.actor_ids[ids].contiguous()
+    env._test_put_actor_ids = actors
     from isaacgym import gymtorch
     env.gym.set_actor_root_state_tensor_indexed(env.sim,env.root_tensor,gymtorch.unwrap_tensor(actors),len(actors))
 
@@ -46,7 +47,7 @@ def check(env):
     assert torch.equal(buildings,env.env_asset_root_states)
     action = torch.zeros(env.num_envs,4,device=env.device)
     action[:,-1] = -0.6934
-    assert env.compute_observations().shape == (env.num_envs,33)
+    assert env.compute_observations().shape == (env.num_envs,30)
     # Mere proximity, with no force, is not a hit.
     put(env,env.rows,env.target_positions+0.6*env.normals)
     env.step(action)
@@ -58,7 +59,6 @@ def check(env):
         env.target_ids[:] = target_id
         env.target_positions[:] = env.plate_centers[target_id]
         env.normals[:] = env.plate_normals[target_id]
-        env.recovery_positions[:] = env.target_positions+env.settings.recovery_standoff*env.normals
         put(env,env.rows,env.target_positions+0.5*env.normals,-5*env.normals)
         hit_info = None
         for _ in range(12):
@@ -72,8 +72,8 @@ def check(env):
         assert hit_info['valid_hit'][good].all(), hit_info
         assert ((hit_info['impact_speed'][good]-5).abs()<0.5).all()
         rebound=(env.root_linvels[good]*env.normals[good]).sum(-1)
-        assert (rebound>0).all(), 'Contact did not physically reverse normal velocity'
-        results.append({'target_id':target_id,'speed':hit_info['impact_speed'][good].tolist(),'rebound_speed':rebound.tolist(),'force':hit_info['peak_plate_force'][good].tolist()})
+        assert (rebound>-4.5).all(), 'Contact failed to change the incoming normal momentum'
+        results.append({'target_id':target_id,'speed':hit_info['impact_speed'][good].tolist(),'post_contact_normal_speed':rebound.tolist(),'force':hit_info['peak_plate_force'][good].tolist()})
     # Deterministic deadline checks are setup states, not policy performance.
     env.reset()
     env.hit[:] = True
@@ -81,7 +81,7 @@ def check(env):
     env.impact_step[:] = 0
     env.progress_buf[:] = env.recovery_steps-2
     env.stable_steps[:] = env.hold_steps
-    put(env,env.rows,env.recovery_positions)
+    put(env,env.rows,env.target_positions+2.0*env.normals)
     _,_,_,done,_ = env.step(action)
     assert not done.any(), 'Ended before 2 second deadline'
     _,_,_,done,info=env.step(action)
@@ -89,13 +89,37 @@ def check(env):
     assert torch.allclose(info['episode_metrics']['post_impact_seconds'],torch.full_like(env.impact_speed,2),atol=1e-5)
     assert torch.isfinite(env.obs_buf).all()
     assert torch.equal(buildings,env.env_asset_root_states)
+    # Same stable attitude succeeds away from the old standoff waypoint and
+    # even with horizontal motion: there is no prescribed recovery location.
+    env.hit[:] = True
+    env.valid_hit[:] = True
+    env.impact_step[:] = 0
+    env.progress_buf[:] = env.recovery_steps-1
+    env.stable_steps[:] = env.hold_steps
+    velocity=torch.zeros_like(env.root_linvels);velocity[:,1]=1.0
+    put(env,env.rows,env.target_positions+2.0*env.normals,velocity)
+    _,_,_,done,info=env.step(action)
+    assert done.all() and info['episode_metrics']['success'].all()
+    # Upright but still spinning at the deadline is not recovered.
+    env.hit[:] = True
+    env.valid_hit[:] = True
+    env.impact_step[:] = 0
+    env.progress_buf[:] = env.recovery_steps-1
+    env.stable_steps[:] = env.hold_steps
+    put(env,env.rows,env.target_positions+2.0*env.normals)
+    env.root_states[:,12]=3.0
+    from isaacgym import gymtorch
+    env._test_actor_ids=env.actor_ids.contiguous()
+    env.gym.set_actor_root_state_tensor_indexed(env.sim,env.root_tensor,gymtorch.unwrap_tensor(env._test_actor_ids),env.num_envs)
+    _,_,_,done,info=env.step(action)
+    assert done.all() and not info['episode_metrics']['success'].any()
     # Low-speed contact cannot count as task success even after recovery.
     env.hit[:] = True
     env.valid_hit[:] = False
     env.impact_step[:] = 0
     env.progress_buf[:] = env.recovery_steps-1
     env.stable_steps[:] = env.hold_steps
-    put(env,env.rows,env.recovery_positions)
+    put(env,env.rows,env.target_positions+2.0*env.normals)
     _,_,_,done,info=env.step(action)
     assert done.all() and not info['episode_metrics']['success'].any()
     # Latest permitted contact still has a complete 2 second recovery window.
@@ -104,7 +128,7 @@ def check(env):
     env.impact_step[:] = env.max_episode_length-env.recovery_steps
     env.progress_buf[:] = env.max_episode_length-2
     env.stable_steps[:] = env.hold_steps
-    put(env,env.rows,env.recovery_positions)
+    put(env,env.rows,env.target_positions+2.0*env.normals)
     _,_,_,done,_=env.step(action)
     assert not done.any()
     _,_,_,done,info=env.step(action)
@@ -112,7 +136,7 @@ def check(env):
     # A no-hit approach deadline is a true terminal task failure.
     env.reset()
     env.progress_buf[:] = env.max_episode_length-env.recovery_steps-1
-    put(env,env.rows,env.recovery_positions)
+    put(env,env.rows,env.target_positions+2.0*env.normals)
     _,_,_,done,info=env.step(action)
     assert done.all() and info['episode_metrics']['timeout'].all()
     assert not info['time_outs'].any()
@@ -121,7 +145,7 @@ def check(env):
     env.valid_hit[:] = True
     env.progress_buf.zero_()
     env.impact_step.zero_()
-    pos=env.recovery_positions.clone()
+    pos=(env.target_positions+2.0*env.normals).clone()
     pos[:,2]=0.22
     put(env,env.rows,pos)
     _,_,_,done,info=env.step(action)
@@ -132,9 +156,17 @@ def check(env):
 
 
 if __name__=='__main__':
+    import sys
+    inelastic='--zero-restitution' in sys.argv
+    if inelastic:sys.argv.remove('--zero-restitution')
     args=get_args()
     args.task='armor_impact'
-    env,_=task_registry.make_env('armor_impact',args=args)
+    cfg=task_registry.get_cfgs('armor_impact')
+    if inelastic:
+        cfg.impact.restitution_range=[0.0,0.0]
+        cfg.steel_plate.restitution_range=[0.0,0.0]
+    env,_=task_registry.make_env('armor_impact',args=args,env_cfg=cfg)
+    print('Material restitution range:',cfg.impact.restitution_range)
     try:
         check(env)
     finally:

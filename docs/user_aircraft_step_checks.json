@@ -1,0 +1,14 @@
+[
+  {
+    "part": "下边机架二板子",
+    "bounds_error_m": 3.5198703257632857e-09,
+    "relative_volume_error": 0.004274656144249901,
+    "exact_step_volume_m3": 2.945667258416266e-06
+  },
+  {
+    "part": "中间机架二板子",
+    "bounds_error_m": 3.5198703257632857e-09,
+    "relative_volume_error": 0.005074200560995654,
+    "exact_step_volume_m3": 2.872295846192655e-06
+  }
+]

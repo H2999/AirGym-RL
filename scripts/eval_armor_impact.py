@@ -41,7 +41,12 @@ def main():
         # Strict evaluation: every trial starts close to stationary hover.
         raw.settings.warm_start_probability=0.0
         weights=torch.load(args['checkpoint'],map_location=player.device)
-        player.model.load_state_dict(weights['model'],strict=True)
+        if weights.get('task_profile')!=raw.cfg.task_profile:
+            raise ValueError('Checkpoint aircraft differs from the current 160g CAD aircraft; retrain for this aircraft')
+        try:
+            player.model.load_state_dict(weights['model'],strict=True)
+        except RuntimeError as exc:
+            raise ValueError('Checkpoint must match the new 30-observation attitude-recovery task; legacy 33-observation models do not apply') from exc
         saved_rate=weights.get('task_max_body_rate',raw.settings.max_body_rate)
         if saved_rate!=raw.settings.max_body_rate:
             raise ValueError('Checkpoint uses a different CTBR action scale')
@@ -66,11 +71,13 @@ def main():
         summary={
             'checkpoint':str(Path(args['checkpoint']).resolve()),
             'checkpoint_sha256':hashlib.sha256(Path(args['checkpoint']).read_bytes()).hexdigest(),
+            'task_schema':'armor_impact_attitude_v3_user160',
+            'task_profile':raw.cfg.task_profile,
             'seed':args['seed'], 'episodes':len(records), 'warm_start_probability':0.0,
             'criteria': {k:getattr(raw.settings,k) for k in [
                 'max_tangential_speed','stable_hold_seconds','max_tilt_deg',
-                'max_recovery_speed','max_recovery_angvel','max_recovery_position_error',
-                'recovery_standoff','min_height','max_height']},
+                'require_low_speed','max_recovery_speed','max_recovery_angvel',
+                'min_height','max_height']},
             'required_speed_mps':raw.settings.speed,
             'speed_tolerance_mps':raw.settings.speed_tolerance,
             'recovery_deadline_seconds':raw.settings.recovery_seconds,

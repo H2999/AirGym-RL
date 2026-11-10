@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "checkpoint": "/home/hzq/RM/AirGym_RL/AirGym/runs/ppo_armor_user160_02-20-42-12/nn/last_ppo_armor_user160_ep_3_rew__-30.933693_.pth",
+    "checkpoint_sha256": "ed59cb44e20e2a108812a52d42933d903d7a1d9ad747a4de3dce2e8d7dc0cb5a",
+    "task_schema": "armor_impact_attitude_v3_user160",
+    "task_profile": "user160_cad_v1",
+    "seed": 66,
+    "episodes": 4,
+    "warm_start_probability": 0.0,
+    "criteria": {
+      "max_tangential_speed": 1.0,
+      "stable_hold_seconds": 0.25,
+      "max_tilt_deg": 30.0,
+      "require_low_speed": false,
+      "max_recovery_speed": 0.7,
+      "max_recovery_angvel": 1.5,
+      "min_height": 0.28,
+      "max_height": 4.0
+    },
+    "required_speed_mps": 5.0,
+    "speed_tolerance_mps": 0.5,
+    "recovery_deadline_seconds": 2.0,
+    "hit_rate": 0.0,
+    "valid_hit_rate": 0.0,
+    "success_rate": 0.0,
+    "crash_rate": 0.25,
+    "mean_hit_speed_mps": 0.0,
+    "successful_episodes": 0,
+    "normal_speed_min_mps": null,
+    "normal_speed_max_mps": null,
+    "by_target": {
+      "base": {
+        "episodes": 1,
+        "success_rate": 0.0
+      },
+      "outpost": {
+        "episodes": 3,
+        "success_rate": 0.0
+      }
+    }
+  },
+  "episodes": [
+    {
+      "hit": false,
+      "valid_hit": false,
+      "impact_speed": 0.0,
+      "success": false,
+      "crash": true,
+      "timeout": false,
+      "peak_plate_force": 0.0,
+      "post_impact_seconds": 0.0,
+      "recovery_speed": 7.222922325134277,
+      "recovery_angvel": 1.5938578844070435,
+      "upright_cos": 0.8937234282493591,
+      "target_id": 0,
+      "stable_at_deadline": false
+    },
+    {
+      "hit": false,
+      "valid_hit": false,
+      "impact_speed": 0.0,
+      "success": false,
+      "crash": false,
+      "timeout": false,
+      "peak_plate_force": 0.0,
+      "post_impact_seconds": 0.0,
+      "recovery_speed": 5.908812046051025,
+      "recovery_angvel": 0.2586781680583954,
+      "upright_cos": 0.8445131778717041,
+      "target_id": 1,
+      "stable_at_deadline": false
+    },
+    {
+      "hit": false,
+      "valid_hit": false,
+      "impact_speed": 0.0,
+      "success": false,
+      "crash": false,
+      "timeout": false,
+      "peak_plate_force": 0.0,
+      "post_impact_seconds": 0.0,
+      "recovery_speed": 6.311051845550537,
+      "recovery_angvel": 0.46395933628082275,
+      "upright_cos": 0.876651406288147,
+      "target_id": 1,
+      "stable_at_deadline": false
+    },
+    {
+      "hit": false,
+      "valid_hit": false,
+      "impact_speed": 0.0,
+      "success": false,
+      "crash": false,
+      "timeout": false,
+      "peak_plate_force": 0.0,
+      "post_impact_seconds": 0.0,
+      "recovery_speed": 6.850803375244141,
+      "recovery_angvel": 1.0792665481567383,
+      "upright_cos": 0.8413259983062744,
+      "target_id": 1,
+      "stable_at_deadline": false
+    }
+  ]
+}

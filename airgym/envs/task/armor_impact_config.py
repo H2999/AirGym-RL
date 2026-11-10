@@ -1,8 +1,27 @@
 """5 m/s armor contact followed by a two-second recovery (rigid-body simulation)."""
 import json
+from pathlib import Path
+import numpy as np
 from airgym.assets import registry
 from airgym.envs.base.hovering_config import HoveringCfg
 from .arena2027_config import ASSET_ROOT, STRUCTURES
+
+USER_AIRCRAFT = Path(__file__).resolve().parents[2]/'assets/robots/user160'
+BUILD = json.loads((USER_AIRCRAFT/'build_report.json').read_text())
+registry.register_asset('user160', {
+    'path':str(USER_AIRCRAFT/'model.urdf'), 'name':'user160',
+    'fix_base_link':False, 'disable_gravity':False,
+    'collapse_fixed_joints':True, 'replace_cylinder_with_capsule':False,
+    'vhacd_enabled':False, 'angular_damping':0., 'linear_damping':0.,
+})
+# Simulation tuning, not the user's measured flight-controller gains. Choose
+# an approximately 50/s small-error body-rate proportional response from
+# estimated inertia. Integral feedback compensates the estimated COM offset.
+MOTOR_FULL_N = .127*9.80665
+ESTIMATED_KAPPA = .005
+RATE_P = (np.diag(np.array(BUILD['estimated_inertia_kg_m2']))*50 /
+    np.array([4*.0405*MOTOR_FULL_N*.707107,4*.030*MOTOR_FULL_N*.707107,
+              4*ESTIMATED_KAPPA*MOTOR_FULL_N])).tolist()
 
 TARGETS = []
 ASSETS = {}
@@ -25,9 +44,28 @@ for i, structure in enumerate(STRUCTURES):
 
 
 class ArmorImpactCfg(HoveringCfg):
+    task_profile = 'user160_cad_v1'
+
+    class steel_plate:
+        material = 'steel'
+        mounting = 'fixed_rigid'
+        # Uncalibrated contact uncertainty. Steel's name alone does not specify
+        # the friction or restitution of the aircraft-frame/plate contact pair.
+        friction_range = [0.3, 0.7]
+        restitution_range = [0.0, 0.35]
+        parameters_calibrated = False
+        color = [0.55, 0.58, 0.62]
+
+    class actuation:
+        half_command_thrust_n = .066*9.80665
+        full_command_thrust_n = MOTOR_FULL_N
+        torque_to_thrust_m = ESTIMATED_KAPPA  # unmeasured reaction torque estimate
+        rate_pid_p = RATE_P
+        rate_pid_i = [p*8 for p in RATE_P]
+        rate_pid_d = [0.,0.,0.]
     class env(HoveringCfg.env):
         num_envs = 64
-        num_observations = 33
+        num_observations = 30
         env_spacing = 18
         episode_length_s = 8.0
         create_ground_plane = True
@@ -42,10 +80,9 @@ class ArmorImpactCfg(HoveringCfg):
         recovery_seconds = 2.0
         stable_hold_seconds = 0.25
         max_tilt_deg = 30.0
-        max_recovery_speed = 0.7
+        require_low_speed = False         # primary objective is attitude recovery
+        max_recovery_speed = 0.7          # optional extra criterion if enabled
         max_recovery_angvel = 1.5
-        max_recovery_position_error = 1.0
-        recovery_standoff = 0.7
         contact_force_threshold = 0.5     # N; numerical contact threshold, NOT damage rating
         # Expanded center corridor accounts for the drone footprint; plate force
         # is still required, so being nearby never constitutes a hit.
@@ -53,11 +90,11 @@ class ArmorImpactCfg(HoveringCfg):
         spawn_distance = [1.5, 3.0]
         spawn_lateral_noise = 0.08
         spawn_vertical_noise = 0.04
-        # Training-only starts near impact to expose PPO to recovery early.
-        # Evaluation explicitly sets this to zero and starts from hover.
-        warm_start_probability = 0.10
+        # Default training and evaluation both start stationary. Optional reset
+        # curricula may be enabled explicitly; they never set post-impact state.
+        warm_start_probability = 0.0
         warm_start_distance = [0.45, 0.8]
-        restitution_range = [0.05, 0.35]
+        restitution_range = [0.0, 0.35]  # uncalibrated material uncertainty, not a bounce command
         friction_range = [0.3, 0.7]
         min_height = 0.28
         max_height = 4.0
@@ -84,4 +121,5 @@ class ArmorImpactCfg(HoveringCfg):
             max_depenetration_velocity = 3.0
 
     class asset_config(HoveringCfg.asset_config):
+        include_robot = {'user160': dict(HoveringCfg.asset_config.include_robot['X152b'])}
         include_single_asset = ASSETS

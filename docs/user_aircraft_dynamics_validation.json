@@ -1,0 +1,56 @@
+{
+  "profile": "user160_cad_v1",
+  "loaded_mass_kg": 0.1600000038743019,
+  "rigid_body_names": [
+    "base_link",
+    "prop_1",
+    "prop_2",
+    "prop_3",
+    "prop_4"
+  ],
+  "convex_collision_shapes": 162,
+  "half_command_thrust_n": 0.6472389,
+  "full_command_thrust_n": 1.24544455,
+  "static_hover_motor_command": 0.30313382701636554,
+  "one_second_height_error_m": 0.12114906311035156,
+  "one_second_body_rate_norm": 4.684288433054462e-05,
+  "positive_rate_step_body_rates": [
+    [
+      0.5043622255325317,
+      0.19524706900119781,
+      0.0017305994406342506
+    ],
+    [
+      -0.00927408505231142,
+      0.7149474620819092,
+      -0.0028367009945213795
+    ],
+    [
+      -0.016062410548329353,
+      0.20028284192085266,
+      0.5188148617744446
+    ]
+  ],
+  "yaw_rate_after_one_second_from_2rad_s": 6.066146306693554e-05,
+  "physical_contact_angular_response": {
+    "hit_speed_m_s": [
+      5.0283613204956055,
+      4.9716386795043945,
+      4.971634864807129,
+      5.0283613204956055
+    ],
+    "angular_velocity_change_rad_s": [
+      1.3474276065826416,
+      8.056743621826172,
+      8.870227813720703,
+      1.3460584878921509
+    ],
+    "angular_speed_after_rad_s": [
+      1.9423675537109375,
+      7.3998894691467285,
+      8.210182189941406,
+      1.9336892366409302
+    ]
+  },
+  "note": "Dynamics checks only; component masses, inertia and rate gains are estimates, no trained recovery policy evaluated"
+}

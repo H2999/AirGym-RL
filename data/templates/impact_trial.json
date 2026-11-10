@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "trial_id": null,
+  "kind": null,
+  "recorded_at": null,
+  "aircraft": {
+    "profile": "user160_cad_v1",
+    "takeoff_mass_kg": null,
+    "battery_cells": null,
+    "battery_start_voltage_v": null,
+    "hardware_changes": null
+  },
+  "flight_controller": {
+    "board": "DM-FC01",
+    "firmware_family": null,
+    "firmware_version": null,
+    "firmware_git_hash": null,
+    "selected_gyro_device_id": null,
+    "selected_accel_device_id": null
+  },
+  "coordinates": {
+    "world_frame": null,
+    "body_frame": null,
+    "board_to_body_rotation": null
+  },
+  "files": {
+    "ulog": "flight.ulg",
+    "video": "video.mp4",
+    "firmware_info": "firmware.txt",
+    "parameters": "parameters.params",
+    "synchronization": "sync.json"
+  },
+  "camera": {
+    "capture_fps": null,
+    "playback_fps": null,
+    "scale_reference_m": null,
+    "calibration_file": null
+  },
+  "synchronization": {
+    "method": null,
+    "video_time_equals_px4_time_plus_offset_s": null,
+    "uncertainty_s": null
+  },
+  "impact": {
+    "planned_normal_speed_mps": null,
+    "measured_normal_speed_mps": null,
+    "plate_mount": null,
+    "plate_thickness_m": null,
+    "contact_location_description": null,
+    "outcome": null
+  },
+  "notes": null
+}
